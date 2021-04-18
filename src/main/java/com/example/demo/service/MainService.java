@@ -81,15 +81,7 @@ public class MainService {
     }
 
     public void logoutUser(HttpServletRequest request) {
-        String key;
-        String xfHeader = request.getHeader("X-Forwarded-For");
-        if (xfHeader == null){
-            key = request.getRemoteAddr();
-        }
-        else{
-            key = xfHeader.split(",")[0];
-        }
-
+        String key = getClientIP();
         this.logoutService.logoutSucceeded(key);
     }
 
