@@ -15,9 +15,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
 
 @Service
 public class MainService {
@@ -100,7 +101,7 @@ public class MainService {
         return xfHeader.split(",")[0];
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public UserProfile makePayment(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));

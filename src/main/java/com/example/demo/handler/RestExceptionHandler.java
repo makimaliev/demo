@@ -2,9 +2,7 @@ package com.example.demo.handler;
 
 import com.example.demo.exception.*;
 import com.example.demo.payload.ExceptionResponse;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -14,6 +12,8 @@ import java.time.LocalDateTime;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @RestControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -37,7 +37,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         response.setCode("BAD_REQUEST");
         response.setTimestamp(LocalDateTime.now());
         logger.error(ex.getMessage(), ex);
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, BAD_REQUEST);
     }
 
     @ExceptionHandler
@@ -59,6 +59,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         response.setCode("UNAUTHORIZED");
         response.setTimestamp(LocalDateTime.now());
         logger.error(ex.getMessage(), ex);
-        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(response, UNAUTHORIZED);
     }
 }
